@@ -1,0 +1,13 @@
+# Configuration settings for license and security
+#
+# licenseServer: The URL for the license server API endpoint for authentication.
+# licenseServerPing: The URL for the license server API endpoint to close the authentication.
+# securityKey: The security key used for authentication with the license server.
+# licenseKey: The license key associated with your product.
+# paymentId: The payment ID associated with your product.
+
+licenseServer: 'http://atwoo.eu:8090/api/license/auth'
+licenseServerPing: 'http://atwoo.eu:8090/api/license/auth-close'
+securityKey: 'YecoF0I6M05thxLeokoHuW8iUhTdIUInjkfF'
+licenseKey: 'yourkey'
+paymentId: 'yourkey'

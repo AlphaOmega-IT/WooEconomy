@@ -1,0 +1,4 @@
+name: WooEconomy
+version: '${project.version}'
+main: de.alphaomegait.wooeconomy.wooeconomy.WooEconomy
+api-version: '1.20'
