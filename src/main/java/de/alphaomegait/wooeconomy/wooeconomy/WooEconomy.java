@@ -129,8 +129,6 @@ public final class WooEconomy extends JavaPlugin implements IConfigPathsProvider
 	@Override
 	public String[] getConfigPaths() {
 		return new String[] {
-			"translations/i18n.yml",
-			"license-config.yml",
 			"database-config.yml"
 		};
 	}
