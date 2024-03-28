@@ -5,6 +5,7 @@ import de.alphaomegait.woocore.WooCore;
 import de.alphaomegait.woocore.dependencies.LibraryLoader;
 import de.alphaomegait.woocore.enums.GPADependency;
 import de.alphaomegait.woocore.enums.LicenseType;
+import de.alphaomegait.wooeconomy.wooeconomy.economy.EconomyAdapter;
 import me.blvckbytes.autowirer.AutoWirer;
 import me.blvckbytes.bukkitboilerplate.PluginFileHandler;
 import me.blvckbytes.bukkitevaluable.ConfigManager;
@@ -12,6 +13,7 @@ import me.blvckbytes.bukkitevaluable.IConfigPathsProvider;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.event.Listener;
+import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
@@ -28,6 +30,7 @@ public final class WooEconomy extends JavaPlugin implements IConfigPathsProvider
 	private AutoWirer autoWirer;
 
 	private WooCore wooCore;
+	private EconomyAdapter economyAdapter;
 
 	@Override
 	public void onLoad() {
@@ -64,6 +67,18 @@ public final class WooEconomy extends JavaPlugin implements IConfigPathsProvider
 		new AO18n(
 			this,
 			false
+		);
+
+		this.economyAdapter = new EconomyAdapter(
+			this.logger,
+			this.wooCore
+		);
+
+		this.getServer().getServicesManager().register(
+			EconomyAdapter.class,
+			this.economyAdapter,
+			this,
+			ServicePriority.Highest
 		);
 	}
 

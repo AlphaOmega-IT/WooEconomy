@@ -1,6 +1,5 @@
 package de.alphaomegait.wooeconomy.wooeconomy.economy;
 
-import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.OfflinePlayer;
 
 /**

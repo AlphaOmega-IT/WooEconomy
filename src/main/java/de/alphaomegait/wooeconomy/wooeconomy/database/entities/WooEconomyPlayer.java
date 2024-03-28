@@ -9,7 +9,6 @@ import jakarta.persistence.Table;
 import org.hibernate.annotations.NamedQuery;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.Serializable;
 import java.util.UUID;
 
 @Entity
@@ -34,7 +33,7 @@ import java.util.UUID;
 	query = "SELECT E FROM WooEconomyPlayer E ORDER BY E.balance DESC LIMIT 10"
 )
 @Table(name = "woo_economy_player")
-public class WooEconomyPlayer extends BaseEntity<WooEconomyPlayer> implements Serializable {
+public class WooEconomyPlayer extends BaseEntity<WooEconomyPlayer> {
 
 	@Column(
 		name = "player_uuid",

@@ -3,7 +3,6 @@ package de.alphaomegait.wooeconomy.wooeconomy.economy;
 import de.alphaomegait.woocore.WooCore;
 import de.alphaomegait.wooeconomy.wooeconomy.database.daos.WooEconomyDao;
 import de.alphaomegait.wooeconomy.wooeconomy.database.entities.WooEconomyPlayer;
-import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.NotNull;
 
@@ -63,7 +62,7 @@ public class EconomyAdapter implements IEconomyAdapter {
 			return new EconomyResponse(amount, this.getBalance(player), EconomyResponse.ResponseType.FAILURE, "Player not found");
 
 		wooEconomy.get().deposit(amount);
-		this.wooEconomyDao.persistEntity(wooEconomy.get());
+		this.wooEconomyDao.update(wooEconomy.get(), wooEconomy.get().getId());
 		return new EconomyResponse(amount, this.getBalance(player), EconomyResponse.ResponseType.SUCCESS, null);
 	}
 
@@ -86,7 +85,7 @@ public class EconomyAdapter implements IEconomyAdapter {
 		if (! wooEconomy.get().withdraw(amount))
 			return new EconomyResponse(amount, this.getBalance(player), EconomyResponse.ResponseType.FAILURE, "Player has not enough money");
 		
-		this.wooEconomyDao.persistEntity(wooEconomy.get());
+		this.wooEconomyDao.update(wooEconomy.get(), wooEconomy.get().getId());
 		return new EconomyResponse(amount, getBalance(player), EconomyResponse.ResponseType.SUCCESS, null);
 	}
 
