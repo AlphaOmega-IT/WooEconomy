@@ -6,6 +6,8 @@ import de.alphaomegait.wooeconomy.wooeconomy.database.entities.WooEconomyPlayer;
 import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.NotNull;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Optional;
 import java.util.logging.Logger;
 
@@ -57,13 +59,16 @@ public class EconomyAdapter implements IEconomyAdapter {
 		final OfflinePlayer player,
 		final double amount
 	) {
-		final Optional<WooEconomyPlayer> wooEconomy = this.getWooEconomyPlayer(player);
-		if (wooEconomy.isEmpty())
-			return new EconomyResponse(amount, this.getBalance(player), EconomyResponse.ResponseType.FAILURE, "Player not found");
+		final double adjustedAmount = BigDecimal.valueOf(amount).setScale(this.fractionalDigits(), RoundingMode.HALF_UP).doubleValue();
 
-		wooEconomy.get().deposit(amount);
+		final Optional<WooEconomyPlayer> wooEconomy = this.getWooEconomyPlayer(player);
+		if (
+			wooEconomy.isEmpty()
+		) return new EconomyResponse(adjustedAmount, this.getBalance(player), EconomyResponse.ResponseType.FAILURE, "Player not found");
+
+		wooEconomy.get().deposit(adjustedAmount);
 		this.wooEconomyDao.update(wooEconomy.get(), wooEconomy.get().getId());
-		return new EconomyResponse(amount, this.getBalance(player), EconomyResponse.ResponseType.SUCCESS, null);
+		return new EconomyResponse(adjustedAmount, this.getBalance(player), EconomyResponse.ResponseType.SUCCESS, null);
 	}
 
 	/**
@@ -78,36 +83,59 @@ public class EconomyAdapter implements IEconomyAdapter {
 		final OfflinePlayer player,
 		final double amount
 	) {
+		final double adjustedAmount = BigDecimal.valueOf(amount).setScale(this.fractionalDigits(), RoundingMode.HALF_UP).doubleValue();
+
 		final Optional<WooEconomyPlayer> wooEconomy = this.getWooEconomyPlayer(player);
 		if (wooEconomy.isEmpty())
-			return new EconomyResponse(amount, this.getBalance(player), EconomyResponse.ResponseType.FAILURE, "Player not found");
+			return new EconomyResponse(adjustedAmount, this.getBalance(player), EconomyResponse.ResponseType.FAILURE, "Player not found");
 
-		if (! wooEconomy.get().withdraw(amount))
-			return new EconomyResponse(amount, this.getBalance(player), EconomyResponse.ResponseType.FAILURE, "Player has not enough money");
+		if (! wooEconomy.get().withdraw(adjustedAmount))
+			return new EconomyResponse(adjustedAmount, this.getBalance(player), EconomyResponse.ResponseType.FAILURE, "Player has not enough money");
 		
 		this.wooEconomyDao.update(wooEconomy.get(), wooEconomy.get().getId());
-		return new EconomyResponse(amount, getBalance(player), EconomyResponse.ResponseType.SUCCESS, null);
+		return new EconomyResponse(adjustedAmount, getBalance(player), EconomyResponse.ResponseType.SUCCESS, null);
 	}
 
+	/**
+	 * Returns the number of fractional digits.
+	 *
+	 * @return the number of fractional digits
+	 */
 	@Override
 	public int fractionalDigits() {
 		return 3;
 	}
 
+	/**
+	 * Creates a player account for the given OfflinePlayer.
+	 *
+	 * @param  player  the OfflinePlayer for which the account is created
+	 * @return        true if the player account is successfully created, false otherwise
+	 */
 	@Override
-	public boolean createPlayerAccount(final OfflinePlayer player) {
+	public boolean createPlayerAccount(
+		final @NotNull OfflinePlayer player
+	) {
 		return this.createPlayerAccount(
 			player,
 			0.00
 		);
 	}
 
+	/**
+	 * Create a player account for the given player with the specified balance.
+	 *
+	 * @param  player   the player for whom the account is to be created
+	 * @param  balance  the initial balance for the player's account
+	 * @return          true if the player account is successfully created, false otherwise
+	 */
 	public boolean createPlayerAccount(
-		final OfflinePlayer player,
+		final @NotNull OfflinePlayer player,
 		final double balance
 	) {
-		if (this.getWooEconomyPlayer(player).isPresent())
-			return false;
+		if (
+			this.getWooEconomyPlayer(player).isPresent()
+		) return false;
 
 		this.wooEconomyDao.persistEntity(
 			new WooEconomyPlayer(player.getUniqueId(), balance)

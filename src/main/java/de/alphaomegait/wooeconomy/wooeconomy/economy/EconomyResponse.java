@@ -3,7 +3,7 @@ package de.alphaomegait.wooeconomy.wooeconomy.economy;
 import java.util.Objects;
 
 /**
- * Indicates a typical Return for an Economy method. It includes a {@link net.milkbowl.vault.economy.EconomyResponse.ResponseType} indicating whether the plugin currently being used for Economy
+ * Indicates a typical Return for an Economy method. It includes a {@link de.alphaomegait.wooeconomy.wooeconomy.economy.EconomyResponse.ResponseType} indicating whether the plugin currently being used for Economy
  * actually allows the method, or if the operation was a success or failure.
  *
  * @param amount       Amount modified by calling method

@@ -132,19 +132,29 @@ public final class WooEconomy extends JavaPlugin implements IConfigPathsProvider
 
 	@Override
 	public void onDisable() {
-		this.wooCore.onDisable();
 		// Perform cleanup
 		this.autoWirer.cleanup();
 	}
 
+	/**
+	 * Returns the instance of the plugin
+	 *
+	 * @return  the instance of the plugin
+	 */
 	public static WooEconomy getInstance() {
 		return instance;
 	}
 
+	/**
+	 * Returns an array of strings representing the paths of the configuration files.
+	 *
+	 * @return  an array of strings representing the paths of the configuration files
+	 */
 	@Override
 	public String[] getConfigPaths() {
 		return new String[] {
-			"database-config.yml"
+			"database-config.yml",
+			"license-config.yml"
 		};
 	}
 }

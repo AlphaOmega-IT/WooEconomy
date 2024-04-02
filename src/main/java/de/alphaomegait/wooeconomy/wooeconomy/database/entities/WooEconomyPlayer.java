@@ -80,6 +80,11 @@ public class WooEconomyPlayer extends BaseEntity<WooEconomyPlayer> {
 		this.balance = balance;
 	}
 
+	/**
+	 *
+	 * @param amount the amount to deposit
+	 * @return true if deposit was successful
+	 */
 	public boolean deposit(
 		final Double amount
 	) {
@@ -93,12 +98,18 @@ public class WooEconomyPlayer extends BaseEntity<WooEconomyPlayer> {
 		}
 	}
 
+	/**
+	 *
+	 * @param amount the amount to withdraw
+	 * @return true if withdraw was successful
+	 */
 	public boolean withdraw(
-		final Double amount
+		final double amount
 	) {
 		try {
-			if (this.balance < amount)
-				return false;
+			if (
+				this.balance < amount
+			) return false;
 
 			this.balance = this.balance - amount;
 			return true;

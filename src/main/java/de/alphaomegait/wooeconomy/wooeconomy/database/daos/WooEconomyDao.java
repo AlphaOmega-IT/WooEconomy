@@ -44,6 +44,12 @@ public class WooEconomyDao extends BaseDao<WooEconomyPlayer> {
 		return Optional.ofNullable(query.getSingleResultOrNull());
 	}
 
+	/**
+	 * Update the balance of a WooEconomyPlayer with the given ID.
+	 *
+	 * @param  player  the WooEconomyPlayer to update
+	 * @param  id      the ID of the player to update
+	 */
 	public void update(
 		final @NotNull WooEconomyPlayer player,
 		final @NotNull Long id
