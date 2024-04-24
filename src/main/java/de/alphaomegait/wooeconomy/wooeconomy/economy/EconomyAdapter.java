@@ -106,6 +106,11 @@ public class EconomyAdapter implements IEconomyAdapter {
 		return 3;
 	}
 
+	@Override
+	public String getCurrencyPrefix() {
+		return "$";
+	}
+
 	/**
 	 * Creates a player account for the given OfflinePlayer.
 	 *

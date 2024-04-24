@@ -43,6 +43,13 @@ public interface IEconomyAdapter {
 	int fractionalDigits();
 
 	/**
+	 * Get the currency prefix.
+	 *
+	 * @return         the currency prefix
+	 */
+	String getCurrencyPrefix();
+
+	/**
 	 * Creates a player account for the given offline player.
 	 *
 	 * @param  player	The offline player for whom the account is to be created

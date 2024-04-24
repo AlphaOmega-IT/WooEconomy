@@ -6,6 +6,8 @@ import de.alphaomegait.woocore.dependencies.LibraryLoader;
 import de.alphaomegait.woocore.enums.GPADependency;
 import de.alphaomegait.woocore.enums.LicenseType;
 import de.alphaomegait.wooeconomy.wooeconomy.economy.EconomyAdapter;
+import de.alphaomegait.wooeconomy.wooeconomy.economy.hookadapters.ShopGUIPlusProvider;
+import de.alphaomegait.wooeconomy.wooeconomy.hooks.ShopGUIPlusHook;
 import me.blvckbytes.autowirer.AutoWirer;
 import me.blvckbytes.bukkitboilerplate.PluginFileHandler;
 import me.blvckbytes.bukkitevaluable.ConfigManager;
@@ -94,6 +96,8 @@ public final class WooEconomy extends JavaPlugin implements IConfigPathsProvider
 			.addExistingSingleton(this.logger)
 			.addSingleton(ConfigManager.class)
 			.addSingleton(PluginFileHandler.class)
+			.addSingleton(ShopGUIPlusProvider.class)
+			.addSingleton(ShopGUIPlusHook.class)
 			.addInstantiationListener(
 				Listener.class,
 				(listener, dependencies) -> {
@@ -156,5 +160,9 @@ public final class WooEconomy extends JavaPlugin implements IConfigPathsProvider
 			"database-config.yml",
 			"license-config.yml"
 		};
+	}
+
+	public EconomyAdapter getEconomyAdapter() {
+		return this.economyAdapter;
 	}
 }
