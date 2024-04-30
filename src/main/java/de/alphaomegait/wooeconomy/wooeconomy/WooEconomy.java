@@ -6,7 +6,6 @@ import de.alphaomegait.woocore.dependencies.LibraryLoader;
 import de.alphaomegait.woocore.enums.GPADependency;
 import de.alphaomegait.woocore.enums.LicenseType;
 import de.alphaomegait.wooeconomy.wooeconomy.economy.EconomyAdapter;
-import de.alphaomegait.wooeconomy.wooeconomy.economy.hookadapters.ShopGUIPlusProvider;
 import de.alphaomegait.wooeconomy.wooeconomy.hooks.ShopGUIPlusHook;
 import me.blvckbytes.autowirer.AutoWirer;
 import me.blvckbytes.bukkitboilerplate.PluginFileHandler;
@@ -31,7 +30,6 @@ public final class WooEconomy extends JavaPlugin implements IConfigPathsProvider
 
 	private AutoWirer autoWirer;
 
-	private WooCore wooCore;
 	private EconomyAdapter economyAdapter;
 
 	@Override
@@ -59,7 +57,7 @@ public final class WooEconomy extends JavaPlugin implements IConfigPathsProvider
 				this.logger.info("Config file created: " + configPath);
 			});
 
-		this.wooCore = new WooCore(
+		final WooCore wooCore = new WooCore(
 			this,
 			LicenseType.FREE,
 			dependencies,
@@ -73,7 +71,7 @@ public final class WooEconomy extends JavaPlugin implements IConfigPathsProvider
 
 		this.economyAdapter = new EconomyAdapter(
 			this.logger,
-			this.wooCore
+			wooCore
 		);
 
 		this.getServer().getServicesManager().register(
@@ -96,8 +94,6 @@ public final class WooEconomy extends JavaPlugin implements IConfigPathsProvider
 			.addExistingSingleton(this.logger)
 			.addSingleton(ConfigManager.class)
 			.addSingleton(PluginFileHandler.class)
-			.addSingleton(ShopGUIPlusProvider.class)
-			.addSingleton(ShopGUIPlusHook.class)
 			.addInstantiationListener(
 				Listener.class,
 				(listener, dependencies) -> {
@@ -131,6 +127,15 @@ public final class WooEconomy extends JavaPlugin implements IConfigPathsProvider
 				this.logger.info(
 					"Successfully loaded " + wirer.getInstancesCount() + " classes (" + ((System.nanoTime() - beginTimestamp) / 1000 / 1000) + "ms)"
 				);
+
+				if (
+					Arrays.stream(this.getServer().getPluginManager().getPlugins()).anyMatch(plugin -> plugin.getName().equals("ShopGUIPlus"))
+				) {
+					this.autoWirer.addSingleton(ShopGUIPlusHook.class).wire(wire -> {});
+					this.getServer().getPluginManager().registerEvents(
+						new ShopGUIPlusHook(this), this
+					);
+				}
 			});
 	}
 
