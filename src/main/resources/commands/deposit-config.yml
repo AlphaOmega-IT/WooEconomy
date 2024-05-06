@@ -16,7 +16,7 @@ permissions:
   missingMessage$: 'lut["prefix"] & "You\sre lacking the permission: " & permission'
   nodes:
     deposit: wooeconomy.deposit
-    depositOther: wooeconomy.deposit.other
+    depositOther: wooeconomy.deposit_other
 
 lut:
   prefix: '&7[&eDeposit&7] '

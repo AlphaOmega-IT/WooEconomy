@@ -1,8 +1,7 @@
-package de.alphaomegait.wooeconomy.wooeconomy.commands.withdraw;
+package de.alphaomegait.wooeconomy.wooeconomy.commands.pay;
 
 import de.alphaomegait.ao18n.I18n;
 import de.alphaomegait.wooeconomy.wooeconomy.WooEconomy;
-import de.alphaomegait.wooeconomy.wooeconomy.commands.deposit.DepositCommandSection;
 import me.blvckbytes.bukkitcommands.PlayerCommand;
 import me.blvckbytes.bukkitevaluable.ConfigManager;
 import me.blvckbytes.bukkitevaluable.section.PermissionsSection;
@@ -16,12 +15,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-public class Withdraw extends PlayerCommand {
+public class Pay extends PlayerCommand {
 	
 	private final WooEconomy         wooEconomy;
 	private final PermissionsSection permissionsSection;
 	
-	public Withdraw(
+	public Pay(
 			final @NotNull ConfigManager configManager,
 			final @NotNull WooEconomy wooEconomy,
 			final @NotNull Logger logger
@@ -29,11 +28,11 @@ public class Withdraw extends PlayerCommand {
 		super(
 				configManager
 						.getMapper(
-								"commands/withdraw-config.yml"
+								"commands/pay-config.yml"
 						)
 						.mapSection(
-								"commands.withdraw",
-								DepositCommandSection.class
+								"commands.pay",
+								PayCommandSection.class
 						),
 				logger
 		);
@@ -41,29 +40,29 @@ public class Withdraw extends PlayerCommand {
 		this.wooEconomy = wooEconomy;
 		this.permissionsSection = configManager
 				                          .getMapper(
-						                          "commands/withdraw-config.yml"
+						                          "commands/pay-config.yml"
 				                          )
 				                          .mapSection(
-						                          "commands.withdraw",
+						                          "commands.pay",
 						                          PermissionsSection.class
 				                          );
 	}
 	
 	@Override
 	protected void onPlayerInvocation(
-			final @NotNull Player player,
-			final @NotNull String label,
-			final @NotNull String[] args
+			final Player player,
+			final String label,
+			final String[] args
 	) {
 		if (
 				! this.permissionsSection.hasPermission(
 						player,
-						EWithdrawPermissionNode.WITHDRAW
+						EPayPermissionNode.PAY
 				)
 		) {
 			this.permissionsSection.sendMissingMessage(
 					player,
-					EWithdrawPermissionNode.WITHDRAW
+					EPayPermissionNode.PAY
 			);
 			return;
 		}
@@ -73,20 +72,50 @@ public class Withdraw extends PlayerCommand {
 				0
 		);
 		
-		final double withdrawAmount = this.doubleParameter(
+		if (
+				targetPlayer.getUniqueId() == player.getUniqueId()
+		) {
+			new I18n.Builder(
+					"pay.no_self_payment",
+					player
+			).hasPrefix(true).build().sendMessageAsComponent();
+			return;
+		}
+		
+		final double payAmount = this.doubleParameter(
 				args,
 				1
 		);
 		
-		this.wooEconomy.getEconomyAdapter().withdrawPlayer(
-				targetPlayer,
-				withdrawAmount
-		);
+		if (
+				! this.wooEconomy.getEconomyAdapter().withdrawPlayer(
+					player,
+					payAmount
+				).transactionSuccess()
+		) {
+			new I18n.Builder(
+					"pay.sufficient_amount",
+					player
+			).hasPrefix(true).build().sendMessageAsComponent();
+			return;
+		}
 		
-		new I18n.Builder(
-				"withdraw.decreased_amount_by",
-				player
-		).hasPrefix(true).setArgs(withdrawAmount).build().sendMessageAsComponent();
+		if (
+				this.wooEconomy.getEconomyAdapter().depositPlayer(
+				targetPlayer,
+				payAmount
+			).transactionSuccess()
+		) {
+			new I18n.Builder(
+					"pay.sent_money",
+					player
+			).hasPrefix(true).setArgs(targetPlayer.getName(), payAmount).build().sendMessageAsComponent();
+			
+			new I18n.Builder(
+					"pay.received_money_by",
+					targetPlayer
+			).hasPrefix(true).setArgs(player.getName(), payAmount).build().sendMessageAsComponent();
+		}
 	}
 	
 	@Override
@@ -96,25 +125,14 @@ public class Withdraw extends PlayerCommand {
 			final String[] args
 	) {
 		if (
-				! (commandSender instanceof Player player)
-		) return new ArrayList<>();
-		
-		if (
-				(args.length != 1 && args.length != 2) ||
-				! this.permissionsSection.hasPermission(
-						player,
-						EWithdrawPermissionNode.WITHDRAW
-				)
-		) return new ArrayList<>();
-		
-		if (
-				args.length == 1
-		) return StringUtil.copyPartialMatches(
+				args.length != 1
+		) {
+			return new ArrayList<>();
+		}
+		return StringUtil.copyPartialMatches(
 				args[0].toLowerCase(),
 				Bukkit.getOnlinePlayers().stream().map(Player::getName).toList(),
 				new ArrayList<>()
 		);
-		
-		return List.of("0", "500", "1000", "2500", "5000", "10000");
 	}
 }
