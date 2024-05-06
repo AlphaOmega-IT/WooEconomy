@@ -5,6 +5,8 @@ import de.alphaomegait.woocore.WooCore;
 import de.alphaomegait.woocore.dependencies.LibraryLoader;
 import de.alphaomegait.woocore.enums.GPADependency;
 import de.alphaomegait.woocore.enums.LicenseType;
+import de.alphaomegait.wooeconomy.wooeconomy.commands.deposit.Deposit;
+import de.alphaomegait.wooeconomy.wooeconomy.commands.withdraw.Withdraw;
 import de.alphaomegait.wooeconomy.wooeconomy.economy.EconomyAdapter;
 import de.alphaomegait.wooeconomy.wooeconomy.hooks.ShopGUIPlusHook;
 import me.blvckbytes.autowirer.AutoWirer;
@@ -94,6 +96,8 @@ public final class WooEconomy extends JavaPlugin implements IConfigPathsProvider
 			.addExistingSingleton(this.logger)
 			.addSingleton(ConfigManager.class)
 			.addSingleton(PluginFileHandler.class)
+			.addSingleton(Deposit.class)
+			.addSingleton(Withdraw.class)
 			.addInstantiationListener(
 				Listener.class,
 				(listener, dependencies) -> {

@@ -1,0 +1,22 @@
+commands:
+  deposit:
+    name: 'deposit'
+    aliases:
+      - depositmoney
+      - depositbalance
+    description: 'Deposit a certain amount of currency to another player.'
+    usage: 'deposit [<player>]'
+    argumentUsages:
+      1$: 'lut["prefix"] & "&7/" & alias & " &c[<player>]"'
+    errorMessages:
+      playerNotOnline$: 'lut["prefix"] & "&7The player &c" & value & " &7is &cnot online"'
+      internalError$: 'lut["prefix"] & "&4An internal error occurred"'
+
+permissions:
+  missingMessage$: 'lut["prefix"] & "You\sre lacking the permission: " & permission'
+  nodes:
+    deposit: wooeconomy.deposit
+    depositOther: wooeconomy.deposit.other
+
+lut:
+  prefix: '&7[&eDeposit&7] '
