@@ -1,0 +1,22 @@
+commands:
+  deposit:
+    name: 'currency'
+    aliases:
+      - balance
+      - money
+    description: 'View the amount of currency the player has.'
+    usage: 'currency [<player>]'
+    argumentUsages:
+      1$: 'lut["prefix"] & "&7/" & alias & " &c[<player>]"'
+    errorMessages:
+      playerNotOnline$: 'lut["prefix"] & "&7The player &c" & value & " &7is &cnot online"'
+      internalError$: 'lut["prefix"] & "&4An internal error occurred"'
+
+permissions:
+  missingMessage$: 'lut["prefix"] & "You\sre lacking the permission: " & permission'
+  nodes:
+    currency: wooeconomy.currency
+    currencyOther: wooeconomy.currency_other
+
+lut:
+  prefix: '&7[&eCurrency&7] '

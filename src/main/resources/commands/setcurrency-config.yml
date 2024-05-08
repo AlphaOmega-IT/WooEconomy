@@ -1,0 +1,23 @@
+commands:
+  setcurrency:
+    name: 'setcurrency'
+    aliases:
+      - setmoney
+      - setbalance
+    description: 'Set the currency of a certain player to a certain amount.'
+    usage: 'setcurrency <player> <value>'
+    argumentUsages:
+      1$: 'lut["prefix"] & "&7/" & alias & " &c<player> &7<value>"'
+      2$: 'lut["prefix"] & "&7/" & alias & " &7<player> &c<value>"'
+    errorMessages:
+      playerNotOnline$: 'lut["prefix"] & "&7The player &c" & value & " &7is &cnot online"'
+      internalError$: 'lut["prefix"] & "&4An internal error occurred"'
+
+permissions:
+  missingMessage$: 'lut["prefix"] & "You\sre lacking the permission: " & permission'
+  nodes:
+    setcurrency: wooeconomy.setcurrency
+    setcurrencyAll: wooeconomy.setcurrency_all
+
+lut:
+  prefix: '&7[&eSetCurrency&7] '

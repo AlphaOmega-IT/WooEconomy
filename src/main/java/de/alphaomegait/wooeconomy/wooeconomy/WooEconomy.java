@@ -5,8 +5,10 @@ import de.alphaomegait.woocore.WooCore;
 import de.alphaomegait.woocore.dependencies.LibraryLoader;
 import de.alphaomegait.woocore.enums.GPADependency;
 import de.alphaomegait.woocore.enums.LicenseType;
+import de.alphaomegait.wooeconomy.wooeconomy.commands.currency.Currency;
 import de.alphaomegait.wooeconomy.wooeconomy.commands.deposit.Deposit;
 import de.alphaomegait.wooeconomy.wooeconomy.commands.pay.Pay;
+import de.alphaomegait.wooeconomy.wooeconomy.commands.setcurrency.SetCurrency;
 import de.alphaomegait.wooeconomy.wooeconomy.commands.withdraw.Withdraw;
 import de.alphaomegait.wooeconomy.wooeconomy.economy.EconomyAdapter;
 import de.alphaomegait.wooeconomy.wooeconomy.hooks.ShopGUIPlusHook;
@@ -100,6 +102,8 @@ public final class WooEconomy extends JavaPlugin implements IConfigPathsProvider
 			.addSingleton(Deposit.class)
 			.addSingleton(Withdraw.class)
 			.addSingleton(Pay.class)
+			.addSingleton(Currency.class)
+			.addSingleton(SetCurrency.class)
 			.addInstantiationListener(
 				Listener.class,
 				(listener, dependencies) -> {
@@ -169,7 +173,13 @@ public final class WooEconomy extends JavaPlugin implements IConfigPathsProvider
 	public String[] getConfigPaths() {
 		return new String[] {
 			"database-config.yml",
-			"license-config.yml"
+			"license-config.yml",
+			"translations/i18n.yml",
+			"commands/currency-config.yml",
+			"commands/pay-config.yml",
+			"commands/withdraw-config.yml",
+			"commands/deposit-config.yml",
+			"commands/setcurrency-config.yml"
 		};
 	}
 

@@ -11,7 +11,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -67,6 +70,39 @@ public class Pay extends PlayerCommand {
 			return;
 		}
 		
+		if (
+				args.length == 2 &&
+				args[1].equals("-all")
+		) {
+			final double payAmount = this.doubleParameter(
+					args,
+					1
+			);
+			
+			final Collection<? extends Player> onlinePlayers = Bukkit.getOnlinePlayers();
+			final double amountToPay = payAmount * onlinePlayers.size();
+			
+			if (
+					this.wooEconomy.getEconomyAdapter().getBalance(player) < amountToPay
+			) {
+				new I18n.Builder(
+						"pay.sufficient_amount",
+						player
+				).hasPrefix(true).build().sendMessageAsComponent();
+				return;
+			}
+			
+			final double calculatedPayment = BigDecimal.valueOf(amountToPay / onlinePlayers.size()).setScale(2, RoundingMode.HALF_DOWN).doubleValue();
+			
+			onlinePlayers.forEach(onlinePlayer -> this.handlePayment(player, onlinePlayer, calculatedPayment, true));
+			
+			new I18n.Builder(
+					"pay.paid_all_people",
+					player
+			).hasPrefix(true).setArgs(onlinePlayers.size(), amountToPay, calculatedPayment).build().sendMessageAsComponent();
+			return;
+		}
+		
 		final Player targetPlayer = this.playerParameter(
 				args,
 				0
@@ -87,35 +123,12 @@ public class Pay extends PlayerCommand {
 				1
 		);
 		
-		if (
-				! this.wooEconomy.getEconomyAdapter().withdrawPlayer(
-					player,
-					payAmount
-				).transactionSuccess()
-		) {
-			new I18n.Builder(
-					"pay.sufficient_amount",
-					player
-			).hasPrefix(true).build().sendMessageAsComponent();
-			return;
-		}
-		
-		if (
-				this.wooEconomy.getEconomyAdapter().depositPlayer(
+		this.handlePayment(
+				player,
 				targetPlayer,
-				payAmount
-			).transactionSuccess()
-		) {
-			new I18n.Builder(
-					"pay.sent_money",
-					player
-			).hasPrefix(true).setArgs(targetPlayer.getName(), payAmount).build().sendMessageAsComponent();
-			
-			new I18n.Builder(
-					"pay.received_money_by",
-					targetPlayer
-			).hasPrefix(true).setArgs(player.getName(), payAmount).build().sendMessageAsComponent();
-		}
+				payAmount,
+				false
+		);
 	}
 	
 	@Override
@@ -132,7 +145,53 @@ public class Pay extends PlayerCommand {
 		return StringUtil.copyPartialMatches(
 				args[0].toLowerCase(),
 				Bukkit.getOnlinePlayers().stream().map(Player::getName).toList(),
-				new ArrayList<>()
+				List.of("--all")
 		);
+	}
+	
+	private void handlePayment(
+			final @NotNull Player player,
+			final @NotNull Player receiver,
+			final double amountToReceive,
+			final boolean isPayAll
+	) {
+		
+		if (
+				! this.wooEconomy.getEconomyAdapter().withdrawPlayer(
+						player,
+						amountToReceive
+				).transactionSuccess()
+		) {
+			if (
+					! isPayAll
+			) new I18n.Builder(
+					"pay.sufficient_amount",
+					player
+			).hasPrefix(true).build().sendMessageAsComponent();
+			return;
+		}
+		
+		if (
+				this.wooEconomy.getEconomyAdapter().depositPlayer(
+						receiver,
+						amountToReceive
+				).transactionSuccess()
+		) {
+			if (
+					! isPayAll
+			) new I18n.Builder(
+					"pay.sent_money",
+					player
+			).hasPrefix(true).setArgs(receiver.getName(), amountToReceive).build().sendMessageAsComponent();
+			
+			if (
+					! receiver.isOnline()
+			) return;
+			
+			new I18n.Builder(
+					"pay.received_money_by",
+					receiver
+			).hasPrefix(true).setArgs(receiver.getName(), amountToReceive).build().sendMessageAsComponent();
+		}
 	}
 }

@@ -1,0 +1,7 @@
+defaultLocale: 'en'
+translations:
+  prefix:
+    de:
+      - '<gray>[</gray><yellow>WooEconomy</yellow><gray>]</gray> <gray>'
+    en:
+      - '<gray>[</gray><yellow>WooEconomy</yellow><gray>]</gray> <gray>'

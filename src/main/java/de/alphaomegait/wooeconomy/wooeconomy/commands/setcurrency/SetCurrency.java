@@ -1,8 +1,9 @@
-package de.alphaomegait.wooeconomy.wooeconomy.commands.withdraw;
+package de.alphaomegait.wooeconomy.wooeconomy.commands.setcurrency;
 
 import de.alphaomegait.ao18n.I18n;
 import de.alphaomegait.wooeconomy.wooeconomy.WooEconomy;
 import de.alphaomegait.wooeconomy.wooeconomy.commands.deposit.DepositCommandSection;
+import de.alphaomegait.wooeconomy.wooeconomy.commands.withdraw.EWithdrawPermissionNode;
 import me.blvckbytes.bukkitcommands.PlayerCommand;
 import me.blvckbytes.bukkitevaluable.ConfigManager;
 import me.blvckbytes.bukkitevaluable.section.PermissionsSection;
@@ -16,12 +17,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-public class Withdraw extends PlayerCommand {
+public class SetCurrency extends PlayerCommand {
 	
 	private final WooEconomy         wooEconomy;
 	private final PermissionsSection permissionsSection;
 	
-	public Withdraw(
+	public SetCurrency(
 			final @NotNull ConfigManager configManager,
 			final @NotNull WooEconomy wooEconomy,
 			final @NotNull Logger logger
@@ -29,11 +30,11 @@ public class Withdraw extends PlayerCommand {
 		super(
 				configManager
 						.getMapper(
-								"commands/withdraw-config.yml"
+								"commands/setcurrency-config.yml"
 						)
 						.mapSection(
-								"commands.withdraw",
-								WithdrawCommandSection.class
+								"commands.setcurrency",
+								SetCurrencyCommandSection.class
 						),
 				logger
 		);
@@ -41,10 +42,10 @@ public class Withdraw extends PlayerCommand {
 		this.wooEconomy = wooEconomy;
 		this.permissionsSection = configManager
 				                          .getMapper(
-						                          "commands/withdraw-config.yml"
+						                          "commands/setcurrency-config.yml"
 				                          )
 				                          .mapSection(
-						                          "commands.withdraw",
+						                          "commands.setcurrency",
 						                          PermissionsSection.class
 				                          );
 	}
@@ -58,35 +59,47 @@ public class Withdraw extends PlayerCommand {
 		if (
 				! this.permissionsSection.hasPermission(
 						player,
-						EWithdrawPermissionNode.WITHDRAW
+						ESetCurrencyPermissionNode.SET_CURRENCY
 				)
 		) {
 			this.permissionsSection.sendMissingMessage(
 					player,
-					EWithdrawPermissionNode.WITHDRAW
+					ESetCurrencyPermissionNode.SET_CURRENCY
 			);
 			return;
 		}
+		
+		//TODO ALL PLAYER - SET CURRENCY ALL
 		
 		final Player targetPlayer = this.playerParameter(
 				args,
 				0
 		);
 		
-		final double withdrawAmount = this.doubleParameter(
+		final double setCurrencyAmount = this.doubleParameter(
 				args,
 				1
 		);
 		
 		this.wooEconomy.getEconomyAdapter().withdrawPlayer(
 				targetPlayer,
-				withdrawAmount
+				this.wooEconomy.getEconomyAdapter().getBalance(targetPlayer)
+		);
+		
+		this.wooEconomy.getEconomyAdapter().depositPlayer(
+				targetPlayer,
+				setCurrencyAmount
 		);
 		
 		new I18n.Builder(
-				"withdraw.decreased_amount_by",
+				"setcurrency.new_amount_set_to",
 				player
-		).hasPrefix(true).setArgs(withdrawAmount).build().sendMessageAsComponent();
+		).hasPrefix(true).setArgs(targetPlayer.getName(), setCurrencyAmount).build().sendMessageAsComponent();
+		
+		new I18n.Builder(
+				"setcurrency.new_amount_received_by",
+				targetPlayer
+		).hasPrefix(true).setArgs(targetPlayer.getName(), setCurrencyAmount).build().sendMessageAsComponent();
 	}
 	
 	@Override
@@ -103,7 +116,7 @@ public class Withdraw extends PlayerCommand {
 				(args.length != 1 && args.length != 2) ||
 				! this.permissionsSection.hasPermission(
 						player,
-						EWithdrawPermissionNode.WITHDRAW
+						ESetCurrencyPermissionNode.SET_CURRENCY
 				)
 		) return new ArrayList<>();
 		
