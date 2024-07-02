@@ -1,5 +1,5 @@
 commands:
-  deposit:
+  currency:
     name: 'currency'
     aliases:
       - balance

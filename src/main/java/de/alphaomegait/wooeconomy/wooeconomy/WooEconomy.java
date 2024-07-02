@@ -66,7 +66,7 @@ public final class WooEconomy extends JavaPlugin implements IConfigPathsProvider
 			this,
 			LicenseType.FREE,
 			dependencies,
-			false
+			false, true
 		);
 
 		new AO18n(
@@ -173,8 +173,6 @@ public final class WooEconomy extends JavaPlugin implements IConfigPathsProvider
 	public String[] getConfigPaths() {
 		return new String[] {
 			"database-config.yml",
-			"license-config.yml",
-			"translations/i18n.yml",
 			"commands/currency-config.yml",
 			"commands/pay-config.yml",
 			"commands/withdraw-config.yml",

@@ -1,5 +1,5 @@
 commands:
-  deposit:
+  pay:
     name: 'pay'
     aliases:
       - sentmoney

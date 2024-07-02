@@ -5,3 +5,57 @@ translations:
       - '<gray>[</gray><yellow>WooEconomy</yellow><gray>]</gray> <gray>'
     en:
       - '<gray>[</gray><yellow>WooEconomy</yellow><gray>]</gray> <gray>'
+  withdraw.decreased_amount_by:
+    de:
+      - '<gray>- </gray><yellow>{0}</yellow><gray> </gray>'
+    en:
+      - '<gray>- </gray><yellow>{0}</yellow><gray> </gray>'
+  currency.current_balance:
+    de:
+      - '<gray>Derzeitiger Kontostand: </gray><yellow>{0}</yellow><gray> </gray>'
+    en:
+      - '<gray>Current balance: </gray><yellow>{0}</yellow><gray> </gray>'
+  currency.current_balance_of:
+    de:
+      - '<gray>Derzeitiger Kontostand von </gray><yellow>{0}</yellow><gray> </gray>'
+    en:
+      - '<gray>Current balance of </gray><yellow>{0}</yellow><gray> </gray>'
+  deposit.increased_amount_by:
+    de:
+      - '<gray>+</gray> <yellow>{0}</yellow><gray> </gray>'
+    en:
+      - '<gray>+</gray> <yellow>{0}</yellow><gray> </gray>'
+  pay.sufficient_amount:
+    de:
+      - '<gray>Der Kontostand ist nicht ausreichend.</gray>'
+    en:
+      - '<gray>Insufficient balance.</gray>'
+  pay.paid_all_people:
+    de:
+      - '<gray>Du hast {0}x Spielern insgesamt </gray><yellow>{1}</yellow><gray> </gray><gray>gezahlt. Jeder Spieler erhielt </gray><yellow>{2}</yellow><gray></gray>'
+    en:
+      - '<gray>You have paid all players in total </gray><yellow>{0}</yellow><gray> </gray><gray>for </gray><yellow>{1}</yellow><gray></gray>'
+  pay.no_self_payment:
+    de:
+      - '<gray>Du kannst dir selbst nicht zahlen.</gray>'
+    en:
+      - '<gray>You cannot pay yourself.</gray>'
+  pay.sent_money:
+    de:
+      - '<gray>Du hast dem Spieler</gray> <yellow>{0}</yellow> <gray>{1} überwiesen.</gray>'
+    en:
+      - '<gray>You have sent </gray><yellow>{0}</yellow> <gray>to </gray><yellow>{1}</yellow><gray>.</gray>'
+  pay.received_money_by:
+    de:
+      - '<gray>Du hast von dem Spieler</gray> <yellow>{0}</yellow> <gray>{1} empfangen.</gray>'
+    en:
+      - '<gray>You have received </gray><yellow>{0}</yellow> <gray>from </gray><yellow>{1}</yellow><gray>.</gray>'
+  setcurrency.new_amount_set_to:
+    de:
+      - '<gray>Der Kontostand wurde von dem Spieler</gray> <yellow>{0}</yellow> <gray>auf </gray><yellow>{0}</yellow><gray> </gray><gray>gesetzt.</gray>'
+    en:
+      - '<gray>The balance was set to </gray><yellow>{0}</yellow><gray> by </gray><yellow>{0}</yellow><gray>.</gray>'
+  setcurrency.new_amount_received_by:
+    de:
+      - '<gray>Dein Kontostand wurde von dem Spieler</gray> <yellow>{0}</yellow> <gray>auf</gray> <yellow>{1}</yellow><gray> </gray><gray>gesetzt.</gray>'
+      - '<gray>Dein Kontostand wurde von dem Spieler</gray> <yellow>{0}</yellow> <gray>auf </gray><yellow>{1}</yellow><gray> </gray><gray>gesetzt.</gray>'
