@@ -84,7 +84,7 @@ public class Withdraw extends PlayerCommand {
 		);
 		
 		new I18n.Builder(
-				"withdraw.decreased_amount_by",
+				"withdraw_decreased_amount_by",
 				player
 		).hasPrefix(true).setArgs(withdrawAmount).build().sendMessageAsComponent();
 	}

@@ -2,10 +2,7 @@ package de.alphaomegait.wooeconomy.wooeconomy.database.entities;
 
 import de.alphaomegait.woocore.database.converter.UUIDConverter;
 import de.alphaomegait.woocore.database.entities.BaseEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Convert;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import org.hibernate.annotations.NamedQuery;
 import org.jetbrains.annotations.NotNull;
 
@@ -33,6 +30,11 @@ import java.util.UUID;
 	query = "SELECT E FROM WooEconomyPlayer E ORDER BY E.balance DESC LIMIT 10"
 )
 @Table(name = "woo_economy_player")
+@SequenceGenerator(
+	allocationSize = 1,
+	name = "SQ_GEN_HIBERNATE",
+	sequenceName = "SQ_GEN_HIBERNATE"
+)
 public class WooEconomyPlayer extends BaseEntity<WooEconomyPlayer> {
 
 	@Column(

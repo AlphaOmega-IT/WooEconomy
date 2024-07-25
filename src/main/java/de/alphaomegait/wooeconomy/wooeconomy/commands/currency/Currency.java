@@ -75,7 +75,7 @@ public class Currency extends PlayerCommand {
 				args.length == 0
 		) {
 			new I18n.Builder(
-					"currency.current_balance",
+					"currency_current_balance",
 					player
 			).hasPrefix(true)
 					.setArgs(this.wooEconomy.getEconomyAdapter().getBalance(player))
@@ -101,7 +101,7 @@ public class Currency extends PlayerCommand {
 		);
 		
 		new I18n.Builder(
-				"currency.current_balance_of",
+				"currency_current_balance_of",
 				player
 		).hasPrefix(true).setArgs(
 						targetPlayer.getName(),

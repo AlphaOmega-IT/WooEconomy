@@ -51,6 +51,7 @@ public final class WooEconomy extends JavaPlugin implements IConfigPathsProvider
 		List<LibraryLoader.Dependency> dependencies = new ArrayList<>();
 		dependencies.addAll(GPADependency.HIBERNATE_ORM.getDependencies());
 		dependencies.addAll(GPADependency.MYSQL.getDependencies());
+		dependencies.addAll(GPADependency.H2.getDependencies());
 
 		// Create config files
 		Arrays.stream(this.getConfigPaths()).toList().forEach(

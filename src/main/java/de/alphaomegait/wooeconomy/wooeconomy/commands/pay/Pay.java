@@ -86,7 +86,7 @@ public class Pay extends PlayerCommand {
 					this.wooEconomy.getEconomyAdapter().getBalance(player) < amountToPay
 			) {
 				new I18n.Builder(
-						"pay.sufficient_amount",
+						"pay_sufficient_amount",
 						player
 				).hasPrefix(true).build().sendMessageAsComponent();
 				return;
@@ -97,7 +97,7 @@ public class Pay extends PlayerCommand {
 			onlinePlayers.forEach(onlinePlayer -> this.handlePayment(player, onlinePlayer, calculatedPayment, true));
 			
 			new I18n.Builder(
-					"pay.paid_all_people",
+					"pay_paid_all_people",
 					player
 			).hasPrefix(true).setArgs(onlinePlayers.size(), amountToPay, calculatedPayment).build().sendMessageAsComponent();
 			return;
@@ -112,7 +112,7 @@ public class Pay extends PlayerCommand {
 				targetPlayer.getUniqueId() == player.getUniqueId()
 		) {
 			new I18n.Builder(
-					"pay.no_self_payment",
+					"pay_no_self_payment",
 					player
 			).hasPrefix(true).build().sendMessageAsComponent();
 			return;
@@ -165,7 +165,7 @@ public class Pay extends PlayerCommand {
 			if (
 					! isPayAll
 			) new I18n.Builder(
-					"pay.sufficient_amount",
+					"pay_sufficient_amount",
 					player
 			).hasPrefix(true).build().sendMessageAsComponent();
 			return;
@@ -180,7 +180,7 @@ public class Pay extends PlayerCommand {
 			if (
 					! isPayAll
 			) new I18n.Builder(
-					"pay.sent_money",
+					"pay_sent_money",
 					player
 			).hasPrefix(true).setArgs(receiver.getName(), amountToReceive).build().sendMessageAsComponent();
 			
@@ -189,7 +189,7 @@ public class Pay extends PlayerCommand {
 			) return;
 			
 			new I18n.Builder(
-					"pay.received_money_by",
+					"pay_received_money_by",
 					receiver
 			).hasPrefix(true).setArgs(receiver.getName(), amountToReceive).build().sendMessageAsComponent();
 		}

@@ -92,12 +92,12 @@ public class SetCurrency extends PlayerCommand {
 		);
 		
 		new I18n.Builder(
-				"setcurrency.new_amount_set_to",
+				"setcurrency_new_amount_set_to",
 				player
 		).hasPrefix(true).setArgs(targetPlayer.getName(), setCurrencyAmount).build().sendMessageAsComponent();
 		
 		new I18n.Builder(
-				"setcurrency.new_amount_received_by",
+				"setcurrency_new_amount_received_by",
 				targetPlayer
 		).hasPrefix(true).setArgs(targetPlayer.getName(), setCurrencyAmount).build().sendMessageAsComponent();
 	}

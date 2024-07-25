@@ -10,7 +10,7 @@ public enum ECurrencyPermissionNode implements IPermissionNode {
 			"wooeconomy.currency"
 	),
 	CURRENCY_OTHER(
-			"currency",
+			"currencyOther",
 			"wooeconomy.currency_other"
 	)
 	;

@@ -7,15 +7,39 @@
   <groupId>de.alphaomega-it.wooeconomy</groupId>
   <artifactId>WooEconomy</artifactId>
   <version>1.0</version>
+	<description>WooEconomy is an economy plugin for Bukkit replacing Vault.</description>
+	<url>https://github.com/AlphaOmega-IT/WooEconomy</url>
   <packaging>jar</packaging>
 
   <name>WooEconomy</name>
-
-  <properties>
-    <java.version>21</java.version>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
-
+	
+	<licenses>
+		<license>
+			<name>MIT License</name>
+			<url>https://github.com/AlphaOmega-IT/BukkitEvaluable/blob/master/LICENSE</url>
+		</license>
+	</licenses>
+	
+	<scm>
+		<connection>scm:svn:https://github.com/AlphaOmega-IT/WooEconomy</connection>
+		<developerConnection>scm:svn:https://github.com/AlphaOmega-IT/WooEconomy</developerConnection>
+		<url>https://github.com/AlphaOmega-IT/WooEconomy</url>
+	</scm>
+	
+	<developers>
+		<developer>
+			<id>alphaomega-it</id>
+			<name>Justin Eiletz</name>
+			<email>justin.eiletz@alphaomega-it.de</email>
+			<url>https://alphaomega-it.de</url>
+			<organization>AlphaOmega-IT</organization>
+			<organizationUrl>https://alphaomega-it.de</organizationUrl>
+			<roles>
+				<role>Developer</role>
+				<role>Owner</role>
+			</roles>
+		</developer>
+	</developers>
   <repositories>
 		<repository>
 			<id>papermc-repo</id>
@@ -42,6 +66,16 @@
 			<groupId>de.alphaomega-it.woocore</groupId>
 			<artifactId>WooCore</artifactId>
 			<version>1.5</version>
+			<exclusions >
+				<exclusion >
+					<groupId >me.blvckbytes</groupId >
+					<artifactId >BukkitEvaluable</artifactId >
+				</exclusion >
+				<exclusion >
+					<groupId >me.blvckbytes</groupId >
+					<artifactId >BBConfigMapper</artifactId >
+				</exclusion >
+			</exclusions >
 		</dependency>
 	  <dependency>
 		  <groupId>me.blvckbytes</groupId>
@@ -61,6 +95,14 @@
 				  <groupId>com.google.code.gson</groupId>
 				  <artifactId>gson</artifactId>
 			  </exclusion>
+			  <exclusion >
+				  <groupId >me.blvckbytes</groupId >
+				  <artifactId >BBConfigMapper</artifactId >
+			  </exclusion >
+			  <exclusion >
+				  <groupId >me.blvckbytes</groupId >
+				  <artifactId >BukkitEvaluable</artifactId >
+			  </exclusion >
 		  </exclusions>
 	  </dependency>
 		<dependency>
@@ -69,10 +111,16 @@
 			<version>8.0.33</version>
 			<scope>provided</scope>
 		</dependency>
+	  <dependency>
+		  <groupId>com.h2database</groupId>
+		  <artifactId>h2</artifactId>
+		  <version>2.1.214</version>
+		  <scope>provided</scope>
+	  </dependency>
 		<dependency>
 			<groupId>org.hibernate.orm</groupId>
 			<artifactId>hibernate-core</artifactId>
-			<version>6.1.5.Final</version>
+			<version>6.1.7.Final</version>
 			<scope>provided</scope>
 		</dependency>
 	  <dependency>
@@ -80,6 +128,60 @@
 		  <artifactId>shopgui-api</artifactId>
 		  <version>2.4.0</version>
 		  <scope>provided</scope>
+		  <exclusions>
+			  <exclusion>
+				  <groupId>com.google.guava</groupId>
+				  <artifactId>guava</artifactId>
+			  </exclusion>
+			  <exclusion>
+				  <groupId>com.google.code.gson</groupId>
+				  <artifactId>gson</artifactId>
+			  </exclusion>
+			  <exclusion>
+				  <groupId>net.md-5</groupId>
+				  <artifactId>bungeecord-chat</artifactId>
+			  </exclusion>
+			  <exclusion>
+				  <groupId>org.yaml</groupId>
+				  <artifactId>snakeyaml</artifactId>
+			  </exclusion>
+		  </exclusions>
+	  </dependency>
+	  <dependency >
+		  <groupId >de.alphaomega-it.bukkitevaluable</groupId >
+		  <artifactId >BukkitEvaluable</artifactId >
+		  <version >1.0</version >
+		  <scope >provided</scope >
+	  </dependency >
+	  <dependency >
+		  <groupId >de.alphaomega-it.bbconfigmapper</groupId >
+		  <artifactId >BBConfigMapper</artifactId >
+		  <version >1.0</version >
+		  <scope >provided</scope >
+	  </dependency >
+	  <dependency>
+		  <groupId>de.alphaomega-it.ao18n</groupId>
+		  <artifactId>AO18n</artifactId>
+		  <version>2.51</version>
+		  <scope>provided</scope>
+		  <exclusions>
+			  <exclusion>
+				  <groupId>me.blvckbytes</groupId>
+				  <artifactId>BBConfigMapper</artifactId>
+			  </exclusion>
+			  <exclusion>
+				  <groupId>me.blvckbytes</groupId>
+				  <artifactId>BukkitEvaluable</artifactId>
+			  </exclusion>
+			  <exclusion>
+				  <groupId>org.jetbrains</groupId>
+				  <artifactId>annotations</artifactId>
+			  </exclusion>
+			  <exclusion>
+				  <groupId>me.blvckbytes</groupId>
+				  <artifactId>AutoWirer</artifactId>
+			  </exclusion>
+		  </exclusions>
 	  </dependency>
   </dependencies>
 
@@ -125,6 +227,60 @@
 							</excludes>
 						</filter>
 					</filters>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.4</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>3.5.0</version>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<version>3.1.0</version>
+				<executions>
+					<execution>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+						<configuration>
+							<executable>${gpg.executable}</executable>
+							<passphrase>${gpg.passphrase}</passphrase>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.sonatype.central</groupId>
+				<artifactId>central-publishing-maven-plugin</artifactId>
+				<version>0.1.2</version>
+				<extensions>true</extensions>
+				<configuration>
+					<publishingServerId>central</publishingServerId>
+					<tokenEnabled>true</tokenEnabled>
 				</configuration>
 			</plugin>
 		</plugins>

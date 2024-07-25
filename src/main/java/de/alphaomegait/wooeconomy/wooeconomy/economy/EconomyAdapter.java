@@ -93,7 +93,7 @@ public class EconomyAdapter implements IEconomyAdapter {
 			return new EconomyResponse(adjustedAmount, this.getBalance(player), EconomyResponse.ResponseType.FAILURE, "Player has not enough money");
 		
 		this.wooEconomyDao.update(wooEconomy.get(), wooEconomy.get().getId());
-		return new EconomyResponse(adjustedAmount, getBalance(player), EconomyResponse.ResponseType.SUCCESS, null);
+		return new EconomyResponse(adjustedAmount, this.getBalance(player), EconomyResponse.ResponseType.SUCCESS, null);
 	}
 
 	/**

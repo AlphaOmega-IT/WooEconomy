@@ -83,7 +83,7 @@ public class Deposit extends PlayerCommand {
 		);
 		
 		new I18n.Builder(
-				"deposit.increased_amount_by",
+				"deposit_increased_amount_by",
 				player
 		).hasPrefix(true).setArgs(depositAmount).build().sendMessageAsComponent();
 	}
