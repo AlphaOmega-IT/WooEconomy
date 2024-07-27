@@ -12,10 +12,12 @@ import de.alphaomegait.wooeconomy.wooeconomy.commands.setcurrency.SetCurrency;
 import de.alphaomegait.wooeconomy.wooeconomy.commands.withdraw.Withdraw;
 import de.alphaomegait.wooeconomy.wooeconomy.economy.EconomyAdapter;
 import de.alphaomegait.wooeconomy.wooeconomy.hooks.ShopGUIPlusHook;
+import de.alphaomegait.wooeconomy.wooeconomy.placeholder.EconomyPlaceholderExpansion;
 import me.blvckbytes.autowirer.AutoWirer;
 import me.blvckbytes.bukkitboilerplate.PluginFileHandler;
 import me.blvckbytes.bukkitevaluable.ConfigManager;
 import me.blvckbytes.bukkitevaluable.IConfigPathsProvider;
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.event.Listener;
@@ -148,6 +150,17 @@ public final class WooEconomy extends JavaPlugin implements IConfigPathsProvider
 					);
 				}
 			});
+
+		if (
+			Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null
+		) {
+			PlaceholderAPI.registerPlaceholderHook(
+				this,
+				new EconomyPlaceholderExpansion(this)
+			);
+
+			new EconomyPlaceholderExpansion(this).register();
+		}
 	}
 
 	@Override
