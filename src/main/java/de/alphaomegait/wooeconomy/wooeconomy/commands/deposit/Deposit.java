@@ -6,6 +6,7 @@ import me.blvckbytes.bukkitcommands.PlayerCommand;
 import me.blvckbytes.bukkitevaluable.ConfigManager;
 import me.blvckbytes.bukkitevaluable.section.PermissionsSection;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
@@ -67,9 +68,10 @@ public class Deposit extends PlayerCommand {
 			return;
 		}
 		
-		final Player targetPlayer = this.playerParameter(
+		final OfflinePlayer targetPlayer = this.offlinePlayerParameter(
 				args,
-				0
+				0,
+				true
 		);
 		
 		final double depositAmount = this.doubleParameter(

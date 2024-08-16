@@ -2,11 +2,11 @@ package de.alphaomegait.wooeconomy.wooeconomy.commands.withdraw;
 
 import de.alphaomegait.ao18n.I18n;
 import de.alphaomegait.wooeconomy.wooeconomy.WooEconomy;
-import de.alphaomegait.wooeconomy.wooeconomy.commands.deposit.DepositCommandSection;
 import me.blvckbytes.bukkitcommands.PlayerCommand;
 import me.blvckbytes.bukkitevaluable.ConfigManager;
 import me.blvckbytes.bukkitevaluable.section.PermissionsSection;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
@@ -68,9 +68,10 @@ public class Withdraw extends PlayerCommand {
 			return;
 		}
 		
-		final Player targetPlayer = this.playerParameter(
+		final OfflinePlayer targetPlayer = this.offlinePlayerParameter(
 				args,
-				0
+				0,
+				true
 		);
 		
 		final double withdrawAmount = this.doubleParameter(
