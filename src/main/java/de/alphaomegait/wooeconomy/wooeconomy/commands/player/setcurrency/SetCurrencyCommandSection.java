@@ -1,4 +1,4 @@
-package de.alphaomegait.wooeconomy.wooeconomy.commands.setcurrency;
+package de.alphaomegait.wooeconomy.wooeconomy.commands.player.setcurrency;
 
 import me.blvckbytes.bukkitcommands.config.ACommandSection;
 

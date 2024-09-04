@@ -1,5 +1,6 @@
 package de.alphaomegait.wooeconomy.wooeconomy.economy;
 
+import de.alphaomegait.wooeconomy.wooeconomy.database.entities.WooEconomyPlayer;
 import org.bukkit.OfflinePlayer;
 
 /**
@@ -17,6 +18,10 @@ public interface IEconomyAdapter {
 	 */
 	double getBalance(
 		final OfflinePlayer player
+	);
+
+	double getBalance(
+		final WooEconomyPlayer economyPlayer
 	);
 
 	/*

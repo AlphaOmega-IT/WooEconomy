@@ -11,6 +11,18 @@ commands:
     errorMessages:
       playerNotOnline$: 'lut["prefix"] & "&7The player &c" & value & " &7is &cnot online"'
       internalError$: 'lut["prefix"] & "&4An internal error occurred"'
+  awithdraw:
+    name: 'awithdraw'
+    aliases:
+      - awithdrawmoney
+      - awithdrawbalance
+    description: 'Reduce the currency of a certain player by a specific amount.'
+    usage: 'withdraw [<player>]'
+    argumentUsages:
+      1$: 'lut["prefix"] & "&7/" & alias & " &c[<player>]"'
+    errorMessages:
+      playerNotOnline$: 'lut["prefix"] & "&7The player &c" & value & " &7is &cnot online"'
+      internalError$: 'lut["prefix"] & "&4An internal error occurred"'
 
 permissions:
   missingMessage$: 'lut["prefix"] & "You\sre lacking the permission: " & permission'

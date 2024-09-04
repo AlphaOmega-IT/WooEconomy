@@ -1,4 +1,4 @@
-package de.alphaomegait.wooeconomy.wooeconomy.commands.withdraw;
+package de.alphaomegait.wooeconomy.wooeconomy.commands.player.withdraw;
 
 import me.blvckbytes.bukkitcommands.config.ACommandSection;
 

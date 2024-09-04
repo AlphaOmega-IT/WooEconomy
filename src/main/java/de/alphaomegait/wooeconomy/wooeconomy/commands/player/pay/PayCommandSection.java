@@ -1,4 +1,4 @@
-package de.alphaomegait.wooeconomy.wooeconomy.commands.pay;
+package de.alphaomegait.wooeconomy.wooeconomy.commands.player.pay;
 
 import me.blvckbytes.bukkitcommands.config.ACommandSection;
 

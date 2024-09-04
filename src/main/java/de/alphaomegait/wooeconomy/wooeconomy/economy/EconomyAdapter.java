@@ -1,15 +1,11 @@
 package de.alphaomegait.wooeconomy.wooeconomy.economy;
 
-import de.alphaomegait.woocore.WooCore;
-import de.alphaomegait.wooeconomy.wooeconomy.database.daos.WooEconomyDao;
+import de.alphaomegait.wooeconomy.wooeconomy.WooEconomy;
 import de.alphaomegait.wooeconomy.wooeconomy.database.entities.WooEconomyPlayer;
 import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.NotNull;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.Optional;
-import java.util.logging.Logger;
 
 /**
  * This abstract class represents an economy adapter that provides methods for interacting with the economy system,
@@ -19,13 +15,12 @@ import java.util.logging.Logger;
  */
 public class EconomyAdapter implements IEconomyAdapter {
 
-	private final WooEconomyDao wooEconomyDao;
+	private final WooEconomy wooEconomy;
 
 	public EconomyAdapter(
-		final @NotNull Logger logger,
-		final @NotNull WooCore wooCore
+		final @NotNull WooEconomy wooEconomy
 	) {
-		this.wooEconomyDao = new WooEconomyDao(wooCore, logger);
+		this.wooEconomy = wooEconomy;
 	}
 
 	/**
@@ -43,8 +38,13 @@ public class EconomyAdapter implements IEconomyAdapter {
 		return wooEconomy.get().getBalance();
 	}
 
+	@Override
+	public double getBalance(final WooEconomyPlayer economyPlayer) {
+		return economyPlayer.getBalance();
+	}
+
 	public Optional<WooEconomyPlayer> getWooEconomyPlayer(final @NotNull OfflinePlayer player) {
- 		return this.wooEconomyDao.findByPlayerUUID(player.getUniqueId());
+ 		return this.wooEconomy.getWooEconomyDao().findByPlayerUUID(player.getUniqueId());
 	}
 
 	/**
@@ -59,16 +59,19 @@ public class EconomyAdapter implements IEconomyAdapter {
 		final OfflinePlayer player,
 		final double amount
 	) {
-		final double adjustedAmount = BigDecimal.valueOf(amount).setScale(this.fractionalDigits(), RoundingMode.HALF_UP).doubleValue();
+		Optional<WooEconomyPlayer> oWooEconomyPlayer = this.wooEconomy.getWooEconomyDao().findByPlayerUUID(player.getUniqueId());
+		WooEconomyPlayer economyPlayer = oWooEconomyPlayer.orElseThrow(() -> new RuntimeException("Missing Player Account for uuid (" + player.getUniqueId() + ")"));
 
-		final Optional<WooEconomyPlayer> wooEconomy = this.getWooEconomyPlayer(player);
-		if (
-			wooEconomy.isEmpty()
-		) return new EconomyResponse(adjustedAmount, this.getBalance(player), EconomyResponse.ResponseType.FAILURE, "Player not found");
+		if (economyPlayer.deposit(amount)) {
+			this.wooEconomy.getWooEconomyDao().update(economyPlayer);
+			EconomyResponse response = new EconomyResponse(amount, this.getBalance(player), EconomyResponse.ResponseType.SUCCESS, "Successfully deposited " + amount + " to " + economyPlayer.getId());
+			this.wooEconomy.getAoCore().getLogger().logDebug(response.errorMessage());
+			return response;
+		}
 
-		wooEconomy.get().deposit(adjustedAmount);
-		this.wooEconomyDao.update(wooEconomy.get(), wooEconomy.get().getId());
-		return new EconomyResponse(adjustedAmount, this.getBalance(player), EconomyResponse.ResponseType.SUCCESS, null);
+		EconomyResponse response = new EconomyResponse(amount, this.getBalance(economyPlayer), EconomyResponse.ResponseType.FAILURE, "Failed to deposit " + amount + " to " + economyPlayer.getId());
+		this.wooEconomy.getAoCore().getLogger().logWarning(response.errorMessage());
+		return response;
 	}
 
 	/**
@@ -83,17 +86,17 @@ public class EconomyAdapter implements IEconomyAdapter {
 		final OfflinePlayer player,
 		final double amount
 	) {
-		final double adjustedAmount = BigDecimal.valueOf(amount).setScale(this.fractionalDigits(), RoundingMode.HALF_UP).doubleValue();
+		Optional<WooEconomyPlayer> oEconomyPlayer = this.wooEconomy.getWooEconomyDao().findByPlayerUUID(player.getUniqueId());
+		if (oEconomyPlayer.isEmpty()) {
+			return new EconomyResponse(amount, this.getBalance(player), EconomyResponse.ResponseType.FAILURE, "Missing Player Account for uuid (" + player.getUniqueId() + ")");
+		}
 
-		final Optional<WooEconomyPlayer> wooEconomy = this.getWooEconomyPlayer(player);
-		if (wooEconomy.isEmpty())
-			return new EconomyResponse(adjustedAmount, this.getBalance(player), EconomyResponse.ResponseType.FAILURE, "Player not found");
+		if (oEconomyPlayer.get().withdraw(amount)) {
+			this.wooEconomy.getWooEconomyDao().update(oEconomyPlayer.get());
+			return new EconomyResponse(amount, oEconomyPlayer.get().getBalance(), EconomyResponse.ResponseType.SUCCESS, "Successfully withdrawn " + amount + " to " + oEconomyPlayer.get().getId());
+		}
 
-		if (! wooEconomy.get().withdraw(adjustedAmount))
-			return new EconomyResponse(adjustedAmount, this.getBalance(player), EconomyResponse.ResponseType.FAILURE, "Player has not enough money");
-		
-		this.wooEconomyDao.update(wooEconomy.get(), wooEconomy.get().getId());
-		return new EconomyResponse(adjustedAmount, this.getBalance(player), EconomyResponse.ResponseType.SUCCESS, null);
+		return new EconomyResponse(amount, oEconomyPlayer.get().getBalance(), EconomyResponse.ResponseType.FAILURE, "Failed to withdraw " + amount + " to " + oEconomyPlayer.get().getId());
 	}
 
 	/**
@@ -142,7 +145,7 @@ public class EconomyAdapter implements IEconomyAdapter {
 			this.getWooEconomyPlayer(player).isPresent()
 		) return false;
 
-		this.wooEconomyDao.persistEntity(
+		this.wooEconomy.getWooEconomyDao().create(
 			new WooEconomyPlayer(player.getUniqueId(), balance)
 		);
 

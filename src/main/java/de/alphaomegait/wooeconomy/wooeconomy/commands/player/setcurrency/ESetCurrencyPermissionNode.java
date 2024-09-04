@@ -1,36 +1,36 @@
-package de.alphaomegait.wooeconomy.wooeconomy.commands.deposit;
+package de.alphaomegait.wooeconomy.wooeconomy.commands.player.setcurrency;
 
 import me.blvckbytes.bukkitevaluable.section.IPermissionNode;
 import org.jetbrains.annotations.NotNull;
 
-public enum EDepositPermissionNode implements IPermissionNode {
+public enum ESetCurrencyPermissionNode implements IPermissionNode {
 	
-	DEPOSIT(
-			"deposit",
-			"wooeconomy.deposit"
+	SET_CURRENCY(
+			"setcurrency",
+			"wooeconomy.setcurrency"
 	),
-	DEPOSIT_OTHER(
-			"deposit",
-			"wooeconomy.deposit_other"
+	SET_CURRENCY_ALL(
+			"setcurrency",
+			"wooeconomy.setcurrency_all"
 	)
 	;
 	
 	private final String internalName;
 	private final String fallbackNode;
 	
-	EDepositPermissionNode(
+	ESetCurrencyPermissionNode(
 			final @NotNull String internalName,
 			final @NotNull String fallbackNode
 	) {
 		this.internalName = internalName;
 		this.fallbackNode = fallbackNode;
 	}
-
+	
 	@Override
 	public String getInternalName() {
 		return this.internalName;
 	}
-
+	
 	@Override
 	public String getFallbackNode() {
 		return this.fallbackNode;

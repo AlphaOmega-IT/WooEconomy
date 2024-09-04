@@ -1,24 +1,24 @@
-package de.alphaomegait.wooeconomy.wooeconomy.commands.setcurrency;
+package de.alphaomegait.wooeconomy.wooeconomy.commands.player.withdraw;
 
 import me.blvckbytes.bukkitevaluable.section.IPermissionNode;
 import org.jetbrains.annotations.NotNull;
 
-public enum ESetCurrencyPermissionNode implements IPermissionNode {
+public enum EWithdrawPermissionNode implements IPermissionNode {
 	
-	SET_CURRENCY(
-			"setcurrency",
-			"wooeconomy.setcurrency"
+	WITHDRAW(
+			"withdraw",
+			"wooeconomy.withdraw"
 	),
-	SET_CURRENCY_ALL(
-			"setcurrency",
-			"wooeconomy.setcurrency_all"
+	WITHDRAW_OTHER(
+			"withdraw",
+			"wooeconomy.withdraw_other"
 	)
 	;
 	
 	private final String internalName;
 	private final String fallbackNode;
 	
-	ESetCurrencyPermissionNode(
+	EWithdrawPermissionNode(
 			final @NotNull String internalName,
 			final @NotNull String fallbackNode
 	) {

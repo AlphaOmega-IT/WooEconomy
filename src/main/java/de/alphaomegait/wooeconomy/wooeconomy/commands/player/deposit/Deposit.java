@@ -1,4 +1,4 @@
-package de.alphaomegait.wooeconomy.wooeconomy.commands.withdraw;
+package de.alphaomegait.wooeconomy.wooeconomy.commands.player.deposit;
 
 import de.alphaomegait.ao18n.I18n;
 import de.alphaomegait.wooeconomy.wooeconomy.WooEconomy;
@@ -16,12 +16,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-public class Withdraw extends PlayerCommand {
-	
-	private final WooEconomy         wooEconomy;
+public class Deposit extends PlayerCommand {
+
+	private final WooEconomy wooEconomy;
 	private final PermissionsSection permissionsSection;
-	
-	public Withdraw(
+
+	public Deposit(
 			final @NotNull ConfigManager configManager,
 			final @NotNull WooEconomy wooEconomy,
 			final @NotNull Logger logger
@@ -29,11 +29,11 @@ public class Withdraw extends PlayerCommand {
 		super(
 				configManager
 						.getMapper(
-								"commands/withdraw-config.yml"
+						"commands/deposit-config.yml"
 						)
 						.mapSection(
-								"commands.withdraw",
-								WithdrawCommandSection.class
+								"commands.deposit",
+								DepositCommandSection.class
 						),
 				logger
 		);
@@ -41,29 +41,29 @@ public class Withdraw extends PlayerCommand {
 		this.wooEconomy = wooEconomy;
 		this.permissionsSection = configManager
 				                          .getMapper(
-						                          "commands/withdraw-config.yml"
+																			"commands/deposit-config.yml"
 				                          )
 				                          .mapSection(
-						                          "commands.withdraw",
+																			"commands.deposit",
 						                          PermissionsSection.class
 				                          );
 	}
-	
+
 	@Override
 	protected void onPlayerInvocation(
-			final @NotNull Player player,
-			final @NotNull String label,
-			final @NotNull String[] args
+		final @NotNull Player player,
+		final @NotNull String label,
+		final @NotNull String[] args
 	) {
 		if (
 				! this.permissionsSection.hasPermission(
 						player,
-						EWithdrawPermissionNode.WITHDRAW
+						EDepositPermissionNode.DEPOSIT
 				)
 		) {
 			this.permissionsSection.sendMissingMessage(
 					player,
-					EWithdrawPermissionNode.WITHDRAW
+					EDepositPermissionNode.DEPOSIT
 			);
 			return;
 		}
@@ -74,27 +74,27 @@ public class Withdraw extends PlayerCommand {
 				true
 		);
 		
-		final double withdrawAmount = this.doubleParameter(
+		final double depositAmount = this.doubleParameter(
 				args,
 				1
 		);
 		
-		this.wooEconomy.getEconomyAdapter().withdrawPlayer(
+		this.wooEconomy.getEconomyAdapter().depositPlayer(
 				targetPlayer,
-				withdrawAmount
+				depositAmount
 		);
 		
 		new I18n.Builder(
-				"withdraw_decreased_amount_by",
+				"deposit_increased_amount_by",
 				player
-		).hasPrefix(true).setArgs(withdrawAmount).build().sendMessageAsComponent();
+		).hasPrefix(true).setArgs(depositAmount).build().sendMessageAsComponent();
 	}
-	
+
 	@Override
 	protected List<String> onTabComplete(
-			final CommandSender commandSender,
-			final String label,
-			final String[] args
+		final CommandSender commandSender,
+		final String label,
+		final String[] args
 	) {
 		if (
 				! (commandSender instanceof Player player)
@@ -104,7 +104,7 @@ public class Withdraw extends PlayerCommand {
 				(args.length != 1 && args.length != 2) ||
 				! this.permissionsSection.hasPermission(
 						player,
-						EWithdrawPermissionNode.WITHDRAW
+						EDepositPermissionNode.DEPOSIT
 				)
 		) return new ArrayList<>();
 		

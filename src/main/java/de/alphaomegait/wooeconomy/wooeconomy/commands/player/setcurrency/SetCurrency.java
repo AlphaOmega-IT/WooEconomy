@@ -1,9 +1,7 @@
-package de.alphaomegait.wooeconomy.wooeconomy.commands.setcurrency;
+package de.alphaomegait.wooeconomy.wooeconomy.commands.player.setcurrency;
 
 import de.alphaomegait.ao18n.I18n;
 import de.alphaomegait.wooeconomy.wooeconomy.WooEconomy;
-import de.alphaomegait.wooeconomy.wooeconomy.commands.deposit.DepositCommandSection;
-import de.alphaomegait.wooeconomy.wooeconomy.commands.withdraw.EWithdrawPermissionNode;
 import me.blvckbytes.bukkitcommands.PlayerCommand;
 import me.blvckbytes.bukkitevaluable.ConfigManager;
 import me.blvckbytes.bukkitevaluable.section.PermissionsSection;

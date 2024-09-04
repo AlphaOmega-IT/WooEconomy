@@ -1,4 +1,4 @@
-package de.alphaomegait.wooeconomy.wooeconomy.commands.currency;
+package de.alphaomegait.wooeconomy.wooeconomy.commands.player.currency;
 
 import de.alphaomegait.ao18n.I18n;
 import de.alphaomegait.wooeconomy.wooeconomy.WooEconomy;

@@ -6,7 +6,7 @@
 
   <groupId>de.alphaomega-it.wooeconomy</groupId>
   <artifactId>WooEconomy</artifactId>
-  <version>1.3</version>
+  <version>1.5</version>
 	<description>WooEconomy is an economy plugin for Bukkit replacing Vault.</description>
 	<url>https://github.com/AlphaOmega-IT/WooEconomy</url>
   <packaging>jar</packaging>
@@ -66,21 +66,15 @@
 			<version>1.21.1-R0.1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
-		<dependency>
-			<groupId>de.alphaomega-it.woocore</groupId>
-			<artifactId>WooCore</artifactId>
-			<version>1.5</version>
-			<exclusions >
-				<exclusion >
-					<groupId >me.blvckbytes</groupId >
-					<artifactId >BukkitEvaluable</artifactId >
-				</exclusion >
-				<exclusion >
-					<groupId >me.blvckbytes</groupId >
-					<artifactId >BBConfigMapper</artifactId >
-				</exclusion >
-			</exclusions >
-		</dependency>
+
+	  <!-- AOCore of AlphaOmega-IT -->
+	  <dependency >
+		  <groupId >de.alphaomega-it.aocore</groupId >
+		  <artifactId >AOCore</artifactId >
+		  <version>1.0</version >
+		  <scope>compile</scope >
+	  </dependency >
+
 	  <dependency>
 		  <groupId>de.alphaomega-it.bukkitcommands</groupId>
 		  <artifactId>BukkitCommands</artifactId>
@@ -109,30 +103,38 @@
 			  </exclusion >
 		  </exclusions>
 	  </dependency>
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>8.0.33</version>
-			<scope>provided</scope>
-		</dependency>
-	  <dependency >
-		  <groupId >me.clip</groupId >
-		  <artifactId >placeholderapi</artifactId >
-		  <version >2.11.6</version >
+
+	  <!-- PlaceholderAPI -->
+	  <dependency>
+		  <groupId>me.clip</groupId>
+		  <artifactId>placeholderapi</artifactId>
+		  <version>2.11.6</version>
+		  <scope>provided</scope>
+	  </dependency>
+
+	  <!-- Hibernate -->
+	  <dependency>
+		  <groupId>org.hibernate.orm</groupId>
+		  <artifactId>hibernate-core</artifactId>
+		  <version>6.6.0.Final</version>
+		  <scope>provided</scope>
+	  </dependency>
+
+	  <!-- MySQL -->
+	  <dependency>
+		  <groupId>com.mysql</groupId>
+		  <artifactId>mysql-connector-j</artifactId>
+		  <version>9.0.0</version>
 		  <scope >provided</scope >
-	  </dependency >
+	  </dependency>
+
+	  <!-- H2 -->
 	  <dependency>
 		  <groupId>com.h2database</groupId>
 		  <artifactId>h2</artifactId>
 		  <version>2.1.214</version>
 		  <scope>provided</scope>
 	  </dependency>
-		<dependency>
-			<groupId>org.hibernate.orm</groupId>
-			<artifactId>hibernate-core</artifactId>
-			<version>6.1.7.Final</version>
-			<scope>provided</scope>
-		</dependency>
 	  <dependency>
 		  <groupId>com.github.brcdev-minecraft</groupId>
 		  <artifactId>shopgui-api</artifactId>
@@ -262,24 +264,6 @@
 						<goals>
 							<goal>jar</goal>
 						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-gpg-plugin</artifactId>
-				<version>3.1.0</version>
-				<executions>
-					<execution>
-						<id>sign-artifacts</id>
-						<phase>verify</phase>
-						<goals>
-							<goal>sign</goal>
-						</goals>
-						<configuration>
-							<executable>${gpg.executable}</executable>
-							<passphrase>${gpg.passphrase}</passphrase>
-						</configuration>
 					</execution>
 				</executions>
 			</plugin>

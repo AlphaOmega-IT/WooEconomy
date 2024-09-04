@@ -1,36 +1,36 @@
-package de.alphaomegait.wooeconomy.wooeconomy.commands.withdraw;
+package de.alphaomegait.wooeconomy.wooeconomy.commands.player.deposit;
 
 import me.blvckbytes.bukkitevaluable.section.IPermissionNode;
 import org.jetbrains.annotations.NotNull;
 
-public enum EWithdrawPermissionNode implements IPermissionNode {
+public enum EDepositPermissionNode implements IPermissionNode {
 	
-	WITHDRAW(
-			"withdraw",
-			"wooeconomy.withdraw"
+	DEPOSIT(
+			"deposit",
+			"wooeconomy.deposit"
 	),
-	WITHDRAW_OTHER(
-			"withdraw",
-			"wooeconomy.withdraw_other"
+	DEPOSIT_OTHER(
+			"deposit",
+			"wooeconomy.deposit_other"
 	)
 	;
 	
 	private final String internalName;
 	private final String fallbackNode;
 	
-	EWithdrawPermissionNode(
+	EDepositPermissionNode(
 			final @NotNull String internalName,
 			final @NotNull String fallbackNode
 	) {
 		this.internalName = internalName;
 		this.fallbackNode = fallbackNode;
 	}
-	
+
 	@Override
 	public String getInternalName() {
 		return this.internalName;
 	}
-	
+
 	@Override
 	public String getFallbackNode() {
 		return this.fallbackNode;

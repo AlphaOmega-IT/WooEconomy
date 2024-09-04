@@ -1,4 +1,4 @@
-package de.alphaomegait.wooeconomy.wooeconomy.commands.currency;
+package de.alphaomegait.wooeconomy.wooeconomy.commands.player.currency;
 
 import me.blvckbytes.bukkitevaluable.section.IPermissionNode;
 import org.jetbrains.annotations.NotNull;
