@@ -1,6 +1,6 @@
 package de.alphaomegait.wooeconomy.wooeconomy.commands.console.withdraw;
 
-import de.alphaomegait.ao18n.I18n;
+import de.alphaomegait.ao18n.i18n.I18n;
 import de.alphaomegait.wooeconomy.wooeconomy.WooEconomy;
 import me.blvckbytes.bukkitcommands.PlayerCommand;
 import me.blvckbytes.bukkitcommands.ServerCommand;
